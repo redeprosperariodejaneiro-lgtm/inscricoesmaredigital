@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inscrição — Oficinas Digitais · Casa Próspera · Maré</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --azul:    #092040;
+      --azul2:   #00B7D7;
+      --amarelo: #ECC203;
+      --cinza:   #EFF1F3;
+      --escuro:  #021738;
+      --branco:  #FFFFFF;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--cinza);
+      font-family: 'Open Sans', sans-serif;
+      color: var(--escuro);
+      min-height: 100vh;
+    }
+
+    /* ─── HEADER ─────────────────────────── */
+    .header {
+      background: var(--azul);
+      padding: 32px 20px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        135deg,
+        transparent,
+        transparent 40px,
+        rgba(0,183,215,.05) 40px,
+        rgba(0,183,215,.05) 41px
+      );
+    }
+    .header-logo {
+      max-width: 240px;
+      height: auto;
+      display: block;
+      margin: 0 auto 12px;
+      position: relative;
+    }
+    .header-sub {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: var(--amarelo);
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .header-wave {
+      display: block;
+      width: 100%;
+      height: 40px;
+      margin-bottom: -2px;
+    }
+
+    /* ─── PARCEIROS BAR ──────────────────── */
+    .parceiros-bar {
+      background: var(--branco);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 22px 24px;
+      box-shadow: 0 2px 12px rgba(9,32,64,.07);
+      border-bottom: 3px solid var(--amarelo);
+    }
+    .parceiro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 0 40px;
+    }
+    .parceiro-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #9aa5b8;
+    }
+    .parceiro-logo {
+      height: 64px;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+      transition: opacity .2s;
+    }
+    .parceiro-logo.logo-br {
+      height: 80px;
+      max-width: 160px;
+    }
+    .parceiro-divider {
+      width: 1px;
+      height: 80px;
+      background: #e0e7ef;
+      flex-shrink: 0;
+    }
+    @media(max-width:400px){
+      .parceiro { padding: 0 20px; }
+      .parceiro-logo { height: 52px; }
+    }
+
+    /* ─── PROGRESS BAR ───────────────────── */
+    .progress-wrap {
+      background: var(--branco);
+      padding: 20px 24px 0;
+      box-shadow: 0 2px 12px rgba(9,32,64,.08);
+    }
+    .progress-steps {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .progress-steps::before {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      right: 16px;
+      height: 3px;
+      background: #dde3ec;
+      z-index: 0;
+    }
+    .progress-fill {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--azul2), var(--amarelo));
+      z-index: 1;
+      transition: width .5s ease;
+      width: 0%;
+    }
+    .step-dot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      z-index: 2;
+    }
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #dde3ec;
+      border: 3px solid #dde3ec;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      color: #9aa5b8;
+      transition: all .4s ease;
+    }
+    .step-circle.active  { background: var(--azul); border-color: var(--azul); color: var(--branco); }
+    .step-circle.done    { background: var(--azul2); border-color: var(--azul2); color: var(--branco); }
+    .step-label {
+      font-size: 9px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      color: #9aa5b8;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: center;
+      max-width: 64px;
+      line-height: 1.2;
+    }
+    .step-label.active { color: var(--azul); }
+    .step-label.done   { color: var(--azul2); }
+
+    /* ─── WORKSHOP SELECTOR ──────────────── */
+    .workshop-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+    @media(max-width:560px){ .workshop-grid { grid-template-columns: 1fr; } }
+    .ws-card {
+      border: 2.5px solid #dde3ec;
+      border-radius: 12px;
+      padding: 18px 16px;
+      cursor: pointer;
+      transition: all .25s;
+      background: var(--branco);
+      position: relative;
+    }
+    .ws-card:hover { border-color: var(--azul2); box-shadow: 0 4px 16px rgba(0,183,215,.15); }
+    .ws-card.selected {
+      border-color: var(--azul);
+      background: linear-gradient(135deg, #f0f5ff, var(--branco));
+      box-shadow: 0 6px 20px rgba(9,32,64,.18);
+    }
+    .ws-card input { display: none; }
+    .ws-date {
+      display: inline-block;
+      background: var(--azul2);
+      color: var(--branco);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      letter-spacing: .5px;
+    }
+    .ws-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--azul);
+      line-height: 1.4;
+    }
+    .ws-time {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--azul2);
+      font-weight: 600;
+    }
+    .ws-check {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #ccd3df;
+      background: var(--branco);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .25s;
+    }
+    .ws-card.selected .ws-check { background: var(--azul); border-color: var(--azul); }
+    .ws-check::after {
+      content: '✓';
+      font-size: 11px;
+      color: var(--branco);
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .ws-card.selected .ws-check::after { opacity: 1; }
+
+    /* ─── TERRITÓRIO LABEL ───────────────── */
+    .territorio-label {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--azul2);
+    }
+    .territorio-nome {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--azul);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .territorio-end {
+      font-size: 11px;
+      color: #7a8a9e;
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.4;
+    }
+
+    /* Workshop único em linha (para 1 card sozinho) */
+    .workshop-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+    @media(max-width:680px){ .workshop-grid-3 { grid-template-columns: 1fr; } }
+
+    /* ─── FORM CONTAINER ─────────────────── */
+    .form-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+    }
+
+    .section-card {
+      background: var(--branco);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(9,32,64,.08);
+      overflow: hidden;
+      display: none;
+    }
+    .section-card.active { display: block; animation: fadeUp .4s ease; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      background: linear-gradient(135deg, var(--azul) 0%, #1a3a6b 100%);
+      padding: 24px 28px;
+      border-left: 5px solid var(--amarelo);
+    }
+    .section-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      color: var(--amarelo);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--branco);
+      line-height: 1.3;
+    }
+    .section-desc {
+      margin-top: 6px;
+      font-size: 13px;
+      color: rgba(255,255,255,.7);
+    }
+
+    .section-body { padding: 28px; }
+
+    /* ─── FIELDS ─────────────────────────── */
+    .field-group { margin-bottom: 22px; }
+    label.field-label {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--azul);
+      margin-bottom: 7px;
+    }
+    label.field-label .req { color: #e74c3c; margin-left: 2px; }
+
+    input[type=text], input[type=email], input[type=date], select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #dde3ec;
+      border-radius: 8px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      color: var(--escuro);
+      background: var(--cinza);
+      outline: none;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    input[type=text]:focus, input[type=email]:focus,
+    input[type=date]:focus, select:focus {
+      border-color: var(--azul2);
+      box-shadow: 0 0 0 4px rgba(0,183,215,.12);
+      background: var(--branco);
+    }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media(max-width:520px){ .field-row { grid-template-columns: 1fr; } }
+
+    .radio-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .radio-grid.cols2 { grid-template-columns: 1fr 1fr; }
+    @media(max-width:520px){ .radio-grid.cols2 { grid-template-columns: 1fr; } }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      border: 2px solid #dde3ec;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all .2s;
+      background: var(--cinza);
+      font-size: 13px;
+      color: var(--escuro);
+    }
+    .radio-option:hover { border-color: var(--azul2); background: #f0fafd; }
+    .radio-option input { accent-color: var(--azul); width: 16px; height: 16px; }
+    .radio-option.checked { border-color: var(--azul); background: #eef2ff; font-weight: 600; color: var(--azul); }
+
+    /* ─── INFO BOX ───────────────────────── */
+    .info-box {
+      border-left: 4px solid var(--azul2);
+      background: #f0fafd;
+      border-radius: 0 10px 10px 0;
+      padding: 16px 20px;
+      margin-bottom: 22px;
+      font-size: 13.5px;
+      color: var(--escuro);
+      line-height: 1.7;
+    }
+    .info-box strong { color: var(--azul); }
+    .info-item { display: flex; align-items: flex-start; gap: 10px; margin-top: 8px; }
+    .info-bullet { font-weight: 700; color: var(--azul2); flex-shrink: 0; font-size: 16px; }
+
+    /* ─── NAV BUTTONS ────────────────────── */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 28px;
+      background: var(--cinza);
+      border-top: 1px solid #e0e7ef;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      border: none;
+      transition: all .25s;
+      letter-spacing: .5px;
+    }
+    .btn-back { background: transparent; color: var(--azul); border: 2px solid var(--azul); }
+    .btn-back:hover { background: var(--azul); color: var(--branco); }
+    .btn-next { background: linear-gradient(135deg, var(--azul2), #007fa8); color: var(--branco); box-shadow: 0 4px 14px rgba(0,183,215,.35); }
+    .btn-next:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,183,215,.45); }
+    .btn-submit { background: linear-gradient(135deg, var(--amarelo), #c9a000); color: var(--azul); box-shadow: 0 4px 14px rgba(236,194,3,.35); }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(236,194,3,.5); }
+
+    /* ─── SUCCESS ────────────────────────── */
+    #success-screen {
+      display: none;
+      text-align: center;
+      padding: 60px 28px;
+      background: var(--branco);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(9,32,64,.08);
+    }
+    .success-icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--azul2), #007fa8);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px;
+      margin: 0 auto 24px;
+      box-shadow: 0 8px 24px rgba(0,183,215,.3);
+    }
+    .success-title { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 26px; color: var(--azul); margin-bottom: 12px; }
+    .success-msg { font-size: 15px; color: #4a5568; line-height: 1.7; max-width: 480px; margin: 0 auto 28px; }
+    .success-badge { display: inline-block; background: linear-gradient(135deg, var(--amarelo), #c9a000); color: var(--azul); font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; padding: 10px 24px; border-radius: 40px; }
+
+    /* ─── LOADING ────────────────────────── */
+    .loading-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(2,23,56,.75); z-index: 999;
+      flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+    }
+    .loading-overlay.show { display: flex; }
+    .spinner { width: 56px; height: 56px; border: 5px solid rgba(255,255,255,.2); border-top-color: var(--azul2); border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { color: var(--branco); font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 15px; }
+
+    /* ─── ERROR ──────────────────────────── */
+    .field-error { color: #e74c3c; font-size: 11.5px; margin-top: 5px; font-weight: 600; display: none; }
+    input.error, select.error { border-color: #e74c3c !important; }
+
+    /* ─── MISC ───────────────────────────── */
+    .section-divider { height: 1px; background: linear-gradient(90deg, var(--azul2), transparent); margin: 22px 0; opacity: .3; }
+    .required-note { font-size: 11px; color: #9aa5b8; margin-bottom: 20px; }
+    .required-note span { color: #e74c3c; }
+  </style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="loading-text">Registrando sua inscricao...</div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <img class="header-logo"
+       src="https://lh3.googleusercontent.com/d/1x5sNkC9vd7CI78y0xdkWvgoadxPEMcIf=w800"
+       alt="Prospera Rio — Logomarca"
+       onerror="this.style.display='none'"/>
+  <div class="header-sub">MARE · OFICINAS DIGITAIS · MARCO 2026</div>
+  <svg class="header-wave" viewBox="0 0 1440 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C360,0 1080,40 1440,10 L1440,40 Z" fill="#EFF1F3"/>
+  </svg>
+</div>
+
+<!-- PARCEIROS -->
+<div class="parceiros-bar">
+  <div class="parceiro">
+    <span class="parceiro-label">Realizacao</span>
+    <img src="https://lh3.googleusercontent.com/d/1DyCuL-4zpBcw56C1VuFH2iKbP8dBQ7SA"
+         alt="Instituto BR" class="parceiro-logo logo-br" onerror="this.style.display='none'"/>
+  </div>
+  <div class="parceiro-divider"></div>
+  <div class="parceiro">
+    <span class="parceiro-label">Patrocinador</span>
+    <img src="https://lh3.googleusercontent.com/d/1ndv92HPv1FLGdUGzKI75FB7WunKrSaQW"
+         alt="Sebrae" class="parceiro-logo" onerror="this.style.display='none'"/>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-steps" id="progressSteps">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <div style="height:20px"></div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap">
+
+  <!-- ── STEP 0: Escolha a Oficina ───────────────── -->
+  <div class="section-card active" id="step-0">
+    <div class="section-header">
+      <div class="section-tag">Passo 1 de 6</div>
+      <div class="section-title">Escolha a Oficina</div>
+      <div class="section-desc">Selecione a palestra em que deseja se inscrever</div>
+    </div>
+    <div class="section-body">
+      <p class="required-note">Selecione a oficina de sua preferencia. Campos com <span>*</span> sao obrigatorios.</p>
+
+      <!-- MARÉ -->
+      <div class="territorio-label">
+        <span class="territorio-nome">Comunidade da Mare</span>
+        <span class="territorio-end">Rua Teixeira Ribeiro, 527 — Em cima do Moto Taxi — Entrada gratuita — Vagas limitadas</span>
+      </div>
+
+      <div class="workshop-grid-3">
+        <!-- Oficina 1 -->
+        <label class="ws-card" id="ws0">
+          <input type="radio" name="oficina" value="Google Meu Negocio"
+                 data-date="19/03/2026" data-time="14h"
+                 data-local="Mare"
+                 data-address="Rua Teixeira Ribeiro, 527 — Mare (em cima do Moto Taxi)"/>
+          <div class="ws-check"></div>
+          <div class="ws-date">19 MAR · 14h</div>
+          <div class="ws-title">Domine o Google e Seja ACHADO Pelos Seus Clientes</div>
+          <div class="ws-time">Duracao: aproximadamente 2 horas</div>
+        </label>
+
+        <!-- Oficina 2 -->
+        <label class="ws-card" id="ws1">
+          <input type="radio" name="oficina" value="Instagram do Zero"
+                 data-date="26/03/2026" data-time="14h"
+                 data-local="Mare"
+                 data-address="Rua Teixeira Ribeiro, 527 — Mare (em cima do Moto Taxi)"/>
+          <div class="ws-check"></div>
+          <div class="ws-date">26 MAR · 14h</div>
+          <div class="ws-title">Aprenda a Vender pelo Instagram do ZERO</div>
+          <div class="ws-time">Duracao: aproximadamente 2 horas</div>
+        </label>
+
+        <!-- Oficina 3 -->
+        <label class="ws-card" id="ws2">
+          <input type="radio" name="oficina" value="TikTok para Negocios"
+                 data-date="26/03/2026" data-time="16h"
+                 data-local="Mare"
+                 data-address="Rua Teixeira Ribeiro, 527 — Mare (em cima do Moto Taxi)"/>
+          <div class="ws-check"></div>
+          <div class="ws-date">26 MAR · 16h</div>
+          <div class="ws-title">Aprenda a Usar o TikTok Para Seu Negocio</div>
+          <div class="ws-time">Duracao: aproximadamente 2 horas</div>
+        </label>
+      </div>
+    </div>
+    <div class="nav-buttons" style="justify-content:flex-end">
+      <button class="btn btn-next" onclick="goTo(1)">Proximo →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 1: Dados Pessoais ───────────────────── -->
+  <div class="section-card" id="step-1">
+    <div class="section-header">
+      <div class="section-tag">Passo 2 de 6</div>
+      <div class="section-title">Dados Pessoais</div>
+      <div class="section-desc">Utilizados para emissao do certificado de participacao</div>
+    </div>
+    <div class="section-body">
+      <p class="required-note">Campos com <span>*</span> sao obrigatorios</p>
+
+      <div class="field-group">
+        <label class="field-label">Nome completo <span class="req">*</span></label>
+        <input type="text" id="nome" placeholder="Seu nome completo"/>
+        <div class="field-error" id="err-nome">Por favor, informe seu nome completo.</div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">CPF <span class="req">*</span></label>
+          <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14"/>
+          <div class="field-error" id="err-cpf">CPF invalido.</div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Data de nascimento <span class="req">*</span></label>
+          <input type="date" id="nascimento"/>
+          <div class="field-error" id="err-nasc">Informe a data de nascimento.</div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Sexo <span class="req">*</span></label>
+        <div class="radio-grid cols2">
+          <label class="radio-option"><input type="radio" name="sexo" value="Feminino"/> Feminino</label>
+          <label class="radio-option"><input type="radio" name="sexo" value="Masculino"/> Masculino</label>
+          <label class="radio-option"><input type="radio" name="sexo" value="Prefiro nao informar"/> Prefiro nao informar</label>
+        </div>
+        <div class="field-error" id="err-sexo">Selecione uma opcao.</div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-back" onclick="goTo(0)">← Voltar</button>
+      <button class="btn btn-next" onclick="goTo(2)">Proximo →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: Endereco ─────────────────────────── -->
+  <div class="section-card" id="step-2">
+    <div class="section-header">
+      <div class="section-tag">Passo 3 de 6</div>
+      <div class="section-title">Endereco</div>
+      <div class="section-desc">Estamos mapeando onde moram nossos empreendedores</div>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Tipo de logradouro <span class="req">*</span></label>
+          <select id="tipoLogradouro">
+            <option value="">Selecione…</option>
+            <option>Rua</option><option>Avenida</option><option>Travessa</option>
+            <option>Beco</option><option>Praca</option><option>Outro</option>
+          </select>
+          <div class="field-error" id="err-tipo">Selecione o tipo.</div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Logradouro <span class="req">*</span></label>
+          <input type="text" id="logradouro" placeholder="Nome da rua/avenida"/>
+          <div class="field-error" id="err-logr">Informe o logradouro.</div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Numero <span class="req">*</span></label>
+          <input type="text" id="numero" placeholder="Ex: 123"/>
+          <div class="field-error" id="err-num">Informe o numero.</div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Complemento</label>
+          <input type="text" id="complemento" placeholder="Apto, bloco… (opcional)"/>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Bairro <span class="req">*</span></label>
+          <input type="text" id="bairro" placeholder="Seu bairro"/>
+          <div class="field-error" id="err-bairro">Informe o bairro.</div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">CEP <span class="req">*</span></label>
+          <input type="text" id="cep" placeholder="00000-000" maxlength="9"/>
+          <div class="field-error" id="err-cep">CEP invalido.</div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Municipio</label>
+          <input type="text" id="municipio" value="Rio de Janeiro" readonly style="opacity:.7"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">UF</label>
+          <input type="text" id="uf" value="RJ" readonly style="opacity:.7"/>
+        </div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-back" onclick="goTo(1)">← Voltar</button>
+      <button class="btn btn-next" onclick="goTo(3)">Proximo →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: Contato ──────────────────────────── -->
+  <div class="section-card" id="step-3">
+    <div class="section-header">
+      <div class="section-tag">Passo 4 de 6</div>
+      <div class="section-title">Contato</div>
+      <div class="section-desc">Para confirmacao da vaga e envio do certificado</div>
+    </div>
+    <div class="section-body">
+      <div class="field-group">
+        <label class="field-label">Telefone / WhatsApp <span class="req">*</span></label>
+        <input type="text" id="telefone" placeholder="(21) 99999-9999" maxlength="15"/>
+        <div class="field-error" id="err-tel">Informe um telefone valido.</div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">E-mail <span class="req">*</span></label>
+        <input type="email" id="email" placeholder="seuemail@exemplo.com"/>
+        <div class="field-error" id="err-email">Informe um e-mail valido.</div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-back" onclick="goTo(2)">← Voltar</button>
+      <button class="btn btn-next" onclick="goTo(4)">Proximo →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: Perfil Digital (dinamico) ───────── -->
+  <div class="section-card" id="step-4">
+    <div class="section-header">
+      <div class="section-tag">Passo 5 de 6</div>
+      <div class="section-title">Perfil Digital</div>
+      <div class="section-desc" id="perfilDesc">Ajude-nos a preparar a oficina para a sua realidade</div>
+    </div>
+    <div class="section-body" id="perfilBody">
+      <!-- Preenchido dinamicamente conforme oficina escolhida -->
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-back" onclick="goTo(3)">← Voltar</button>
+      <button class="btn btn-next" onclick="goTo(5)">Proximo →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 5: Autorizacao ──────────────────────── -->
+  <div class="section-card" id="step-5">
+    <div class="section-header">
+      <div class="section-tag">Passo 6 de 6</div>
+      <div class="section-title">Autorizacao</div>
+      <div class="section-desc">Quase la! Revise e conclua sua inscricao</div>
+    </div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>Informacoes da sua inscricao</strong>
+        <div class="info-item"><span class="info-bullet">→</span><span>A participacao e gratuita e o certificado sera enviado por e-mail apos a oficina.</span></div>
+        <div class="info-item"><span class="info-bullet">→</span><span>Local: <strong>Rua Teixeira Ribeiro, 527 - Mare (em cima do Moto Taxi)</strong></span></div>
+        <div class="info-item"><span class="info-bullet">→</span><span>Leve apenas seu celular e vontade de aprender.</span></div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Autorizacao de uso de dados (LGPD) <span class="req">*</span></label>
+        <div class="radio-grid">
+          <label class="radio-option"><input type="radio" name="lgpd" value="Sim, autorizo"/> Sim, autorizo o uso dos meus dados para fins do programa Prospera Rio</label>
+          <label class="radio-option"><input type="radio" name="lgpd" value="Nao autorizo"/> Nao autorizo</label>
+        </div>
+        <div class="field-error" id="err-lgpd">E necessario informar sua opcao de LGPD.</div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div class="field-group">
+        <label class="field-label">Comunicacoes do Prospera Rio</label>
+        <div class="radio-grid">
+          <label class="radio-option"><input type="radio" name="comunicacao" value="Sim, quero saber de outras oficinas"/> Sim, quero receber informacoes sobre novas oficinas e oportunidades</label>
+          <label class="radio-option"><input type="radio" name="comunicacao" value="Nao quero receber comunicacoes"/> Nao, obrigado(a)</label>
+        </div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-back" onclick="goTo(4)">← Voltar</button>
+      <button class="btn btn-submit" onclick="submitForm()">Confirmar Inscricao ✓</button>
+    </div>
+  </div>
+
+  <!-- ── TELA DE SUCESSO ──────────────────────────── -->
+  <div id="success-screen">
+    <div class="success-icon">✓</div>
+    <div class="success-title">Inscricao Confirmada!</div>
+    <div class="success-msg">
+      Sua inscricao foi registrada com sucesso. Nos vemos na oficina!<br/>
+      <strong>Local: Rua Teixeira Ribeiro, 527 - Mare (em cima do Moto Taxi)</strong>
+    </div>
+    <div class="success-badge" id="successBadge"></div>
+  </div>
+
+</div><!-- /form-wrap -->
+
+<script>
+  // ── CONFIGURACAO ────────────────────────────────────────────────────────────
+  // Cole aqui a URL do seu Google Apps Script após implantar como Web App
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzyUUzpGT14080HYcBHbqNArRM_yY2vgbNTyBQGZ3FfqRZu1fmz6_Shy0ZYhYqhUF5eeQ/exec';
+
+  // ── ETAPAS ──────────────────────────────────────────────────────────────────
+  const STEPS = [
+    { label: 'Oficina' },
+    { label: 'Dados' },
+    { label: 'Endereco' },
+    { label: 'Contato' },
+    { label: 'Perfil' },
+    { label: 'Confirmar' },
+  ];
+
+  let currentStep = 0;
+
+  // Injeta os dots de progresso
+  (function initProgress() {
+    const wrap = document.getElementById('progressSteps');
+    STEPS.forEach((s, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'step-dot';
+      dot.id = `dot-${i}`;
+      dot.innerHTML = `
+        <div class="step-circle${i === 0 ? ' active' : ''}" id="circle-${i}">${i + 1}</div>
+        <div class="step-label${i === 0 ? ' active' : ''}" id="label-${i}">${s.label}</div>`;
+      wrap.appendChild(dot);
+    });
+  })();
+
+  function updateProgress(step) {
+    STEPS.forEach((_, i) => {
+      const circle = document.getElementById(`circle-${i}`);
+      const label  = document.getElementById(`label-${i}`);
+      circle.className = 'step-circle' + (i < step ? ' done' : i === step ? ' active' : '');
+      label.className  = 'step-label'  + (i < step ? ' done' : i === step ? ' active' : '');
+    });
+    const pct = step === 0 ? 0 : (step / (STEPS.length - 1)) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+  }
+
+  // Clique nos cards de oficina
+  document.querySelectorAll('.ws-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.ws-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+    });
+  });
+
+  // ── PERGUNTAS POR OFICINA ────────────────────────────────────────────────────
+  const PERGUNTAS = {
+    'Google Meu Negocio': [
+      {
+        id: 'p1',
+        q: 'Seu negocio aparece quando alguem pesquisa no Google?',
+        opts: [
+          'Sim, aparece nos primeiros resultados',
+          'Aparece as vezes',
+          'Nunca vi meu negocio no Google',
+          'Nao tenho negocio ainda'
+        ]
+      },
+      {
+        id: 'p2',
+        q: 'Voce tem perfil no Google Meu Negocio (Google Maps)?',
+        opts: [
+          'Sim, criei e mantenho atualizado',
+          'Sim, mas nao sei como usar direito',
+          'Nao tenho, mas quero criar',
+          'Nao sabia que isso existia'
+        ]
+      },
+      {
+        id: 'p3',
+        q: 'Maior dificuldade para ser encontrado online?',
+        opts: [
+          'Nao sei como aparecer no Google',
+          'Nao tenho site nem perfil no Google',
+          'Tenho perfil mas nao aparece nos resultados',
+          'Nao sei o que publicar para atrair clientes',
+          'Nunca pensei nisso antes'
+        ]
+      },
+      {
+        id: 'p4',
+        q: 'Clientes ja te encontraram pelo Google?',
+        opts: [
+          'Sim, com frequencia',
+          'Sim, mas poucas vezes',
+          'Nunca aconteceu',
+          'Nao sei como descobrir isso'
+        ]
+      },
+      {
+        id: 'p5',
+        q: 'Que tipo de negocio voce tem ou quer ter?',
+        opts: [
+          'Produtos (roupas, acessorios, beleza…)',
+          'Servicos (cabeleireiro, manicure, costureira…)',
+          'Comida (doces, salgados, marmita…)',
+          'Ainda estou comecando'
+        ]
+      },
+      {
+        id: 'p6',
+        q: 'Objetivo principal com esta oficina?',
+        opts: [
+          'Aparecer no Google quando clientes pesquisarem',
+          'Criar ou melhorar meu perfil no Google Meu Negocio',
+          'Entender como o Google funciona para negocios locais',
+          'Atrair mais clientes pela internet',
+          'Todos os acima'
+        ]
+      },
+    ],
+
+    'Instagram do Zero': [
+      {
+        id: 'p1',
+        q: 'Voce ja usa o Instagram para divulgar seu negocio?',
+        opts: [
+          'Sim, tenho perfil comercial ativo',
+          'Tenho perfil, mas posto pouco',
+          'So tenho perfil pessoal',
+          'Nao uso o Instagram para negocios'
+        ]
+      },
+      {
+        id: 'p2',
+        q: 'Com que frequencia voce posta no Instagram?',
+        opts: [
+          'Todos os dias',
+          'Algumas vezes por semana',
+          'Uma vez por semana ou menos',
+          'Quase nunca ou nao posto'
+        ]
+      },
+      {
+        id: 'p3',
+        q: 'Maior dificuldade com o Instagram?',
+        opts: [
+          'Nao saber o que postar',
+          'Nao ter tempo para criar conteudo',
+          'Nao conseguir novos seguidores',
+          'Posts que nao geram vendas',
+          'Nao saber usar os recursos do Instagram'
+        ]
+      },
+      {
+        id: 'p4',
+        q: 'Algum post no Instagram ja gerou venda?',
+        opts: [
+          'Sim, vendo pelo Instagram com frequencia',
+          'Ja aconteceu algumas vezes',
+          'Raramente',
+          'Nunca / Ainda nao uso para vender'
+        ]
+      },
+      {
+        id: 'p5',
+        q: 'Que tipo de negocio voce tem ou quer ter?',
+        opts: [
+          'Produtos (roupas, acessorios, beleza…)',
+          'Servicos (cabeleireiro, manicure, costureira…)',
+          'Comida (doces, salgados, marmita…)',
+          'Ainda estou comecando'
+        ]
+      },
+      {
+        id: 'p6',
+        q: 'Objetivo principal com esta oficina?',
+        opts: [
+          'Criar um perfil profissional do zero',
+          'Aprender a criar posts que vendem',
+          'Conquistar mais seguidores e clientes',
+          'Entender como o Instagram funciona para negocios',
+          'Todos os acima'
+        ]
+      },
+    ],
+
+    'TikTok para Negocios': [
+      {
+        id: 'p1',
+        q: 'Voce usa o TikTok atualmente?',
+        opts: [
+          'Sim, uso todo dia',
+          'Uso as vezes',
+          'Ja tive conta mas parei',
+          'Nunca usei'
+        ]
+      },
+      {
+        id: 'p2',
+        q: 'Voce ja postou algum video no TikTok sobre seu negocio?',
+        opts: [
+          'Sim, tenho videos sobre meu negocio',
+          'Ja postei, mas nao sobre negocio',
+          'Nunca postei video',
+          'Nao tenho conta no TikTok'
+        ]
+      },
+      {
+        id: 'p3',
+        q: 'Maior dificuldade com o TikTok?',
+        opts: [
+          'Timidez ou vergonha de aparecer',
+          'Nao saber o que mostrar ou falar',
+          'Nao ter equipamento adequado',
+          'Falta de tempo',
+          'Nao acredito que funciona para meu negocio'
+        ]
+      },
+      {
+        id: 'p4',
+        q: 'Voce acredita que o TikTok pode ajudar seu negocio?',
+        opts: [
+          'Sim, muito',
+          'Talvez, mas nao sei como usar',
+          'Nao sei ao certo',
+          'Nao acredito que funcione para mim'
+        ]
+      },
+      {
+        id: 'p5',
+        q: 'Que tipo de negocio voce tem ou quer ter?',
+        opts: [
+          'Produtos (roupas, acessorios, beleza…)',
+          'Servicos (cabeleireiro, manicure, costureira…)',
+          'Comida (doces, salgados, marmita…)',
+          'Ainda estou comecando'
+        ]
+      },
+      {
+        id: 'p6',
+        q: 'Objetivo principal com esta oficina?',
+        opts: [
+          'Criar meu primeiro video no TikTok',
+          'Entender como o algoritmo do TikTok funciona',
+          'Aprender a atrair clientes pelo TikTok',
+          'Criar conteudo sem vergonha e sem equipamento caro',
+          'Todos os acima'
+        ]
+      },
+    ],
+  };
+
+  function renderPerfil(oficina) {
+    const body = document.getElementById('perfilBody');
+    const perguntas = PERGUNTAS[oficina] || PERGUNTAS['Google Meu Negocio'];
+    body.innerHTML = '<p class="required-note">Campos com <span style="color:#e74c3c">*</span> sao obrigatorios</p>';
+    perguntas.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'field-group';
+      div.innerHTML = `
+        <label class="field-label">${p.q} <span class="req">*</span></label>
+        <div class="radio-grid">
+          ${p.opts.map(o => `<label class="radio-option"><input type="radio" name="${p.id}" value="${o}"/> ${o}</label>`).join('')}
+        </div>
+        <div class="field-error" id="err-${p.id}">Selecione uma opcao.</div>`;
+      body.appendChild(div);
+    });
+    body.querySelectorAll('.radio-option input').forEach(inp => {
+      inp.addEventListener('change', () => {
+        body.querySelectorAll(`.radio-option input[name="${inp.name}"]`).forEach(i => {
+          i.closest('.radio-option').classList.toggle('checked', i.checked);
+        });
+      });
+    });
+  }
+
+  // ── NAVEGACAO ────────────────────────────────────────────────────────────────
+  function goTo(step) {
+    if (step > currentStep && !validate(currentStep)) return;
+    if (step === 4) {
+      const oficina = getSelectedOficina();
+      if (oficina) renderPerfil(oficina);
+    }
+    document.getElementById(`step-${currentStep}`).classList.remove('active');
+    currentStep = step;
+    document.getElementById(`step-${currentStep}`).classList.add('active');
+    updateProgress(currentStep);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function getSelectedOficina() {
+    const r = document.querySelector('input[name="oficina"]:checked');
+    return r ? r.value : null;
+  }
+
+  // ── VALIDACAO ────────────────────────────────────────────────────────────────
+  function showErr(id, show) {
+    const el = document.getElementById('err-' + id);
+    if (el) el.style.display = show ? 'block' : 'none';
+  }
+  function clearErrors() {
+    document.querySelectorAll('.field-error').forEach(e => e.style.display = 'none');
+    document.querySelectorAll('input.error, select.error').forEach(e => e.classList.remove('error'));
+  }
+
+  function validate(step) {
+    clearErrors();
+    let ok = true;
+    const req = (id, condition) => { if (!condition) { showErr(id, true); ok = false; } };
+
+    if (step === 0) {
+      if (!getSelectedOficina()) {
+        alert('Por favor, selecione uma oficina para continuar.');
+        ok = false;
+      }
+    }
+    if (step === 1) {
+      req('nome', document.getElementById('nome').value.trim().length >= 3);
+      req('cpf',  document.getElementById('cpf').value.replace(/\D/g,'').length === 11);
+      req('nasc', !!document.getElementById('nascimento').value);
+      req('sexo', !!document.querySelector('input[name="sexo"]:checked'));
+    }
+    if (step === 2) {
+      req('tipo',   !!document.getElementById('tipoLogradouro').value);
+      req('logr',   document.getElementById('logradouro').value.trim().length > 0);
+      req('num',    document.getElementById('numero').value.trim().length > 0);
+      req('bairro', document.getElementById('bairro').value.trim().length > 0);
+      req('cep',    document.getElementById('cep').value.replace(/\D/g,'').length === 8);
+    }
+    if (step === 3) {
+      req('tel',   document.getElementById('telefone').value.replace(/\D/g,'').length >= 10);
+      req('email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('email').value.trim()));
+    }
+    if (step === 4) {
+      for (let i = 1; i <= 6; i++) {
+        req(`p${i}`, !!document.querySelector(`input[name="p${i}"]:checked`));
+      }
+    }
+    if (step === 5) {
+      req('lgpd', !!document.querySelector('input[name="lgpd"]:checked'));
+    }
+    return ok;
+  }
+
+  // ── MASCARAS ─────────────────────────────────────────────────────────────────
+  document.getElementById('cpf').addEventListener('input', function() {
+    let v = this.value.replace(/\D/g,'').substring(0,11);
+    if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/,'$1.$2.$3-$4');
+    else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/,'$1.$2.$3');
+    else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/,'$1.$2');
+    this.value = v;
+  });
+  document.getElementById('cep').addEventListener('input', function() {
+    let v = this.value.replace(/\D/g,'').substring(0,8);
+    if (v.length > 5) v = v.replace(/(\d{5})(\d{1,3})/,'$1-$2');
+    this.value = v;
+  });
+  document.getElementById('telefone').addEventListener('input', function() {
+    let v = this.value.replace(/\D/g,'').substring(0,11);
+    if (v.length > 10) v = v.replace(/(\d{2})(\d{5})(\d{4})/,'($1) $2-$3');
+    else if (v.length > 6) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/,'($1) $2-$3');
+    else if (v.length > 2) v = v.replace(/(\d{2})(\d{0,5})/,'($1) $2');
+    this.value = v;
+  });
+
+  document.addEventListener('change', e => {
+    if (e.target.type === 'radio') {
+      const name = e.target.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(i => {
+        i.closest('.radio-option')?.classList.toggle('checked', i.checked);
+      });
+    }
+  });
+
+  // ── SUBMIT ────────────────────────────────────────────────────────────────────
+  async function submitForm() {
+    if (!validate(5)) return;
+
+    const oficina = getSelectedOficina();
+    const ofInput = document.querySelector('input[name="oficina"]:checked');
+    const perfilRespostas = {};
+    for (let i = 1; i <= 6; i++) {
+      const sel = document.querySelector(`input[name="p${i}"]:checked`);
+      perfilRespostas[`perfil_p${i}`] = sel ? sel.value : '';
+    }
+
+    const payload = {
+      oficina,
+      local:           ofInput?.dataset.local    || '',
+      endereco:        ofInput?.dataset.address  || '',
+      data_palestra:   ofInput?.dataset.date     || '',
+      hora_palestra:   ofInput?.dataset.time     || '',
+      nome:            document.getElementById('nome').value.trim(),
+      cpf:             document.getElementById('cpf').value.trim(),
+      nascimento:      document.getElementById('nascimento').value,
+      sexo:            document.querySelector('input[name="sexo"]:checked')?.value || '',
+      tipo_logradouro: document.getElementById('tipoLogradouro').value,
+      logradouro:      document.getElementById('logradouro').value.trim(),
+      numero:          document.getElementById('numero').value.trim(),
+      complemento:     document.getElementById('complemento').value.trim(),
+      bairro:          document.getElementById('bairro').value.trim(),
+      municipio:       'Rio de Janeiro',
+      uf:              'RJ',
+      cep:             document.getElementById('cep').value.trim(),
+      telefone:        document.getElementById('telefone').value.trim(),
+      email:           document.getElementById('email').value.trim(),
+      lgpd:            document.querySelector('input[name="lgpd"]:checked')?.value || '',
+      comunicacao:     document.querySelector('input[name="comunicacao"]:checked')?.value || '',
+      timestamp:       new Date().toLocaleString('pt-BR'),
+      ...perfilRespostas
+    };
+
+    document.getElementById('loadingOverlay').classList.add('show');
+
+    const formData = new URLSearchParams();
+    Object.entries(payload).forEach(([k, v]) => formData.append(k, v));
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method:  'POST',
+        mode:    'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body:    formData.toString()
+      });
+      showSuccess(oficina, ofInput);
+    } catch (err) {
+      document.getElementById('loadingOverlay').classList.remove('show');
+      alert('Erro de conexao. Verifique sua internet e tente novamente.');
+    }
+  }
+
+  function showSuccess(oficina, ofInput) {
+    document.getElementById('loadingOverlay').classList.remove('show');
+    document.getElementById(`step-${currentStep}`).classList.remove('active');
+    document.getElementById('success-screen').style.display = 'block';
+    document.getElementById('successBadge').textContent =
+      `${ofInput?.dataset.date || ''} · ${ofInput?.dataset.time || ''} — ${oficina} — Mare`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
